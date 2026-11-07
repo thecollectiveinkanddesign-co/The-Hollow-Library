@@ -96,7 +96,7 @@ export default function LoginPage() {
       const { data, error: signupError } = await supabase.auth.signUp({
         email: cleanEmail,
         password,
-        options: {
+        options: {emailRedirectTo: `${window.location.origin}/auth/callback`,
           data: {
             username: cleanUsername,
             display_name: cleanDisplayName,
