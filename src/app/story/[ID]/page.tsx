@@ -1,8 +1,5 @@
-
-"use client";
-
+export const instant = false;
 import Link from "next/link";
-import { useParams } from "next/navigation";
 
 const stories = [
   {
@@ -85,10 +82,13 @@ const stories = [
   },
 ];
 
-export default function StoryPage() {
-  const params = useParams();
-  const id = Number(params.id);
-  const story = stories.find((item) => item.id === id);
+type Props = {
+  params: Promise<{ ID: string }>;
+};
+
+export default async function StoryPage({ params }: Props) {
+  const { ID } = await params;
+  const story = stories.find((item) => item.id === Number(ID));
 
   if (!story) {
     return (
@@ -109,11 +109,15 @@ export default function StoryPage() {
             <small>AN ARCHIVE OF IMAGINED WORLDS</small>
           </span>
         </Link>
-        <Link href="/" className="text-button">← Back to the Archive</Link>
+        <Link href="/" className="text-button">
+          ← Back to the Archive
+        </Link>
       </header>
 
       <section style={{ maxWidth: "900px", margin: "70px auto", padding: "0 24px" }}>
-        <p className="eyebrow">{story.fandom} · {story.rating.toUpperCase()} · {story.category}</p>
+        <p className="eyebrow">
+          {story.fandom} · {story.rating.toUpperCase()} · {story.category}
+        </p>
 
         <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)", marginBottom: "16px" }}>
           {story.title}
@@ -142,6 +146,7 @@ export default function StoryPage() {
         <hr style={{ margin: "48px 0", opacity: 0.2 }} />
 
         <h2>Chapter One</h2>
+
         <p style={{ marginTop: "20px", lineHeight: 1.9 }}>
           The pages of this story are waiting to be written...
         </p>
